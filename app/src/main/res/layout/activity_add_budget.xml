@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Page Add Budget"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"/>
+
+    <!-- Tên ngân sách -->
+    <EditText
+        android:id="@+id/edtBudgetName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter name Budget"
+        android:inputType="text"
+        android:layout_marginTop="15dp"
+        android:autofillHints="false"/>
+
+    <!-- Số tiền ngân sách -->
+    <EditText
+        android:id="@+id/edtBudgetMoney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter money Budget"
+        android:inputType="numberDecimal"
+        android:autofillHints="false"
+        android:layout_marginTop="15dp"/>
+
+    <!-- Mô tả -->
+    <EditText
+        android:id="@+id/edtDescriptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descriptions"
+        android:layout_marginTop="15dp"
+        android:autofillHints="false"/>
+
+    <!-- Danh mục -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Category"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"/>
+    <Spinner
+        android:id="@+id/spinnerCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Ngày áp dụng -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/tvSelectedDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tap to select date"
+        android:textColor="#2196F3"
+        android:padding="8dp"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="5dp"/>
+
+    <!-- Nút Lưu -->
+    <Button
+        android:id="@+id/btnSaveBudget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_marginTop="15dp"/>
+
+    <!-- Nút Quay lại -->
+    <Button
+        android:id="@+id/btnBackBudget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BACK"
+        android:layout_marginTop="15dp"/>
+</LinearLayout>
