@@ -72,6 +72,14 @@
         android:padding="8dp"
         android:background="@android:drawable/editbox_background"
         android:layout_marginTop="5dp"/>
+    <TextView
+        android:id="@+id/tvEndDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chọn ngày kết thúc"
+        android:padding="8dp"
+        android:textSize="16sp" />
+
 
     <!-- Nút Lưu -->
     <Button

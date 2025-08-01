@@ -1,5 +1,6 @@
 package com.example.campusexpensemanager_se07101.budget;
 
+import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,15 +16,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.campusexpensemanager_se07101.MainActivity;
+import com.example.campusexpensemanager_se07101.MenuActivity;
 import com.example.campusexpensemanager_se07101.R;
 import com.example.campusexpensemanager_se07101.budgetFragment;
 import com.example.campusexpensemanager_se07101.database.BudgetRepository;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class AddBudgetActivity extends AppCompatActivity {
     EditText edtButgetName, edtBugetMoney, edtDescription;
     Button btnSave, btnBack;
     Spinner spinnerCategory;
-    TextView tvSelectedDate;
+    TextView tvSelectedDate, tvEndDate;
     BudgetRepository repository;
 
     @Override
@@ -41,6 +47,7 @@ public class AddBudgetActivity extends AppCompatActivity {
         edtDescription = findViewById(R.id.edtDescriptions);
         spinnerCategory = findViewById(R.id.spinnerCategory);
         tvSelectedDate = findViewById(R.id.tvSelectedDate);
+        tvEndDate = findViewById(R.id.tvEndDate);
         repository = new BudgetRepository(AddBudgetActivity.this);
         // ⚠️ Thêm đoạn này để tránh spinner bị null
         String[] categories = {"Food", "Transport", "Shopping", "Other"};
@@ -51,6 +58,23 @@ public class AddBudgetActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategory.setAdapter(adapter);
+        // Lấy ngày hiện tại
+        Calendar calendar = Calendar.getInstance();
+
+        // Bắt sự kiện chọn ngày
+        tvSelectedDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker(calendar, tvSelectedDate);
+            }
+
+        });
+        tvEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker(calendar, tvEndDate);
+            }
+        });
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,9 +84,9 @@ public class AddBudgetActivity extends AppCompatActivity {
                     String moneyStr = edtBugetMoney.getText().toString().trim();
                     String description = edtDescription.getText().toString().trim();
                     String category = spinnerCategory.getSelectedItem().toString();
-                    String startDate = "2025-07-31"; // tạm thời mặc định hoặc lấy từ DatePicker
-                    String endDate = "2025-08-01";   // tạm thời mặc định hoặc lấy từ DatePicker
-                    // Kiểm tra tên ngân sách
+                    String startDate = ((TextView) findViewById(R.id.tvSelectedDate)).getText().toString().trim();
+                    String endDate = tvEndDate.getText().toString().trim();
+                    // Kiểm tra tên ngân sáchA
                     if (TextUtils.isEmpty(nameBudget)) {
                         edtButgetName.setError("Enter name Budget, please");
                         return;
@@ -94,7 +118,7 @@ public class AddBudgetActivity extends AppCompatActivity {
                         Toast.makeText(AddBudgetActivity.this, "Cannot create budget, please try again", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(AddBudgetActivity.this, "Budget created successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AddBudgetActivity.this, MainActivity.class);
+                        Intent intent = new Intent(AddBudgetActivity.this, MenuActivity.class);
                         startActivity(intent);
                     }
 
@@ -104,5 +128,29 @@ public class AddBudgetActivity extends AppCompatActivity {
                 }
             }
         });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddBudgetActivity.this, MenuActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    private void showDatePicker(Calendar calendar, TextView targetView) {
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, day) -> {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            targetView.setText(sdf.format(calendar.getTime()));
+        };
+
+        new DatePickerDialog(
+                this,
+                dateSetListener,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        ).show();
     }
 }
