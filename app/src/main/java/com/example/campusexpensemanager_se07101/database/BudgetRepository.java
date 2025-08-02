@@ -1,93 +1,161 @@
 package com.example.campusexpensemanager_se07101.database;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
+import com.example.campusexpensemanager_se07101.model.Budget;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
-public class BudgetRepository extends DbHelper{
-    public BudgetRepository(@Nullable Context context) { super(context); }
-    public int updateBudgetById(String budgetName, int budgetMoney, String description,
-                                String category, String startDate, String endDate, int id)
-    {
-        @SuppressLint({"NewApi", "LocalSuppress"}) DateTimeFormatter dft = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        @SuppressLint({"NewApi", "LocalSuppress"}) ZonedDateTime zone = ZonedDateTime.now();
-        @SuppressLint({"NewApi", "LocalSuppress"}) String CurrentDate = dft.format(zone);
-        SQLiteDatabase db = getWritableDatabase(); // cap nhap lai du lieu
-        ContentValues values = new ContentValues();// tao ra doi tuong de chua cac cot gia tri
-        values.put(DbHelper.COL_BUDGET_NAME, budgetName);              // Tên ngân sách
-        values.put(DbHelper.COL_BUDGET_MONEY, budgetMoney);            // Số tiền
-        values.put(DbHelper.COL_BUDGET_DESCRIPTION, description);      // Mô tả
-        values.put(DbHelper.COL_BUDGET_CATEGORY, category);            // Loại
-        values.put(DbHelper.COL_BUDGET_START_DATE, startDate);         // Ngày bắt đầu
-        values.put(DbHelper.COL_BUDGET_END_DATE, endDate);             // Ngày kết thúc
-        values.put(DbHelper.COL_UPDATED_AT, CurrentDate);       // Ngày cập nhật
-        return db.update(DbHelper.DB_TABLE_BUDGET, values, "id = ?", new String[]{String.valueOf(id)});
+public class BudgetRepository {
+    private final DbHelper dbHelper;
+    private static final String TAG = "BudgetRepository";
 
+    public BudgetRepository(Context context) {
+        dbHelper = new DbHelper(context);
     }
-    public long AddNewBudget (int userId,String budgetName, int budgetMoney, String description,
-                              String category, String startDate, String endDate)
-    {
-        @SuppressLint({"NewApi", "LocalSuppress"}) DateTimeFormatter dft = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        @SuppressLint({"NewApi", "LocalSuppress"}) ZonedDateTime zone = ZonedDateTime.now();
-        @SuppressLint({"NewApi", "LocalSuppress"}) String CurrentDate = dft.format(zone);
-        //
+
+    public long AddNewBudget(int userId, String name, int money, String description,
+                             int categoryId, String startDate, String endDate) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        SQLiteDatabase db = this.getWritableDatabase();
-        values.put(DbHelper.COL_BUDGET_NAME, budgetName);
-        values.put(DbHelper.COL_BUDGET_MONEY, budgetMoney);
+        values.put(DbHelper.COL_BUDGET_USER_ID, userId);
+        values.put(DbHelper.COL_BUDGET_NAME, name);
+        values.put(DbHelper.COL_BUDGET_MONEY, money);
         values.put(DbHelper.COL_BUDGET_DESCRIPTION, description);
-        values.put(DbHelper.COL_BUDGET_CATEGORY, category);
+        values.put(DbHelper.COL_BUDGET_CATEGORY_ID, categoryId);
         values.put(DbHelper.COL_BUDGET_START_DATE, startDate);
         values.put(DbHelper.COL_BUDGET_END_DATE, endDate);
-        values.put(DbHelper.COL_BUDGET_USER_ID, userId); //  Ghi user_id ở đây
-        values.put(DbHelper.COL_CREATED_AT, CurrentDate);
-        long insert = db.insert(DbHelper.DB_TABLE_BUDGET, null, values);
-        //  THÊM LOG Ở ĐÂY
-        Log.d("DEBUG_INSERT", "Insert result: " + insert);
+        long newRowId = db.insert(DbHelper.DB_TABLE_BUDGET, null, values);
         db.close();
-        return insert;
+        return newRowId;
     }
-    @SuppressLint("Range")
-    public ArrayList<BudgetModel> getListBudget()
-    {
-        ArrayList<BudgetModel> budgetArrayList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase(); //doc du liue
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DbHelper.DB_TABLE_BUDGET, null);
-        if(cursor != null && cursor.getCount() > 0)
-        {
-            if (cursor.moveToFirst())
-            {
-                do{
-                    // do du lieu vao model
-                    budgetArrayList.add(
-                            new BudgetModel(
-                                    cursor.getInt(cursor.getColumnIndex(DbHelper.COL_BUDGET_ID)),
-                                    cursor.getInt(cursor.getColumnIndex(DbHelper.COL_USER_ID)),
-                                    cursor.getString(cursor.getColumnIndex(DbHelper.COL_BUDGET_NAME)),
-                                    cursor.getInt(cursor.getColumnIndex(DbHelper.COL_BUDGET_MONEY)),
-                                    cursor.getString(cursor.getColumnIndex(DbHelper.COL_BUDGET_DESCRIPTION)),
-                                    cursor.getString(cursor.getColumnIndex(DbHelper.COL_BUDGET_CATEGORY)),
-                                    cursor.getString(cursor.getColumnIndex(DbHelper.COL_BUDGET_START_DATE)),
-                                    cursor.getString(cursor.getColumnIndex(DbHelper.COL_BUDGET_END_DATE)),
-                                    cursor.getString(cursor.getColumnIndex(DbHelper.COL_CREATED_AT)),
-                                    cursor.getString(cursor.getColumnIndex(DbHelper.COL_UPDATED_AT))
-                            )
-                    );
-                }while (cursor.moveToNext());
 
+    public List<Budget> getAllBudgetsByUserId(int userId) {
+        List<Budget> budgets = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            String[] projection = {
+                    DbHelper.COL_BUDGET_ID,
+                    DbHelper.COL_BUDGET_USER_ID,
+                    DbHelper.COL_BUDGET_NAME,
+                    DbHelper.COL_BUDGET_MONEY,
+                    DbHelper.COL_BUDGET_DESCRIPTION,
+                    DbHelper.COL_BUDGET_CATEGORY_ID,
+                    DbHelper.COL_BUDGET_START_DATE,
+                    DbHelper.COL_BUDGET_END_DATE
+            };
+            String selection = DbHelper.COL_BUDGET_USER_ID + " = ?";
+            String[] selectionArgs = {String.valueOf(userId)};
+
+            cursor = db.query(
+                    DbHelper.DB_TABLE_BUDGET,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null, null, null
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    int id = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_ID));
+                    int budgetUserId = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_USER_ID));
+                    String name = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_NAME));
+                    int money = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_MONEY));
+                    String description = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_DESCRIPTION));
+                    int categoryId = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_CATEGORY_ID));
+                    String startDate = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_START_DATE));
+                    String endDate = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_END_DATE));
+
+                    budgets.add(new Budget(id, budgetUserId, name, money, description, categoryId, startDate, endDate));
+                } while (cursor.moveToNext());
             }
-            cursor.close();
+        } catch (Exception e) {
+            Log.e(TAG, "Lỗi khi lấy ngân sách từ database", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (db != null) {
+                db.close();
+            }
         }
+        return budgets;
+    }
+
+    public Budget getBudgetById(int budgetId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = null;
+        Budget budget = null;
+
+        try {
+            String[] projection = {
+                    DbHelper.COL_BUDGET_ID,
+                    DbHelper.COL_BUDGET_USER_ID,
+                    DbHelper.COL_BUDGET_NAME,
+                    DbHelper.COL_BUDGET_MONEY,
+                    DbHelper.COL_BUDGET_DESCRIPTION,
+                    DbHelper.COL_BUDGET_CATEGORY_ID,
+                    DbHelper.COL_BUDGET_START_DATE,
+                    DbHelper.COL_BUDGET_END_DATE
+            };
+            String selection = DbHelper.COL_BUDGET_ID + " = ?";
+            String[] selectionArgs = {String.valueOf(budgetId)};
+
+            cursor = db.query(
+                    DbHelper.DB_TABLE_BUDGET,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null, null, null
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_ID));
+                int userId = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_USER_ID));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_NAME));
+                int money = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_MONEY));
+                String description = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_DESCRIPTION));
+                int categoryId = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_CATEGORY_ID));
+                String startDate = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_START_DATE));
+                String endDate = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_BUDGET_END_DATE));
+
+                budget = new Budget(id, userId, name, money, description, categoryId, startDate, endDate);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Lỗi khi lấy ngân sách theo ID", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (db != null) {
+                db.close();
+            }
+        }
+        return budget;
+    }
+
+    public int updateBudget(Budget budget) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DbHelper.COL_BUDGET_NAME, budget.getName());
+        values.put(DbHelper.COL_BUDGET_MONEY, budget.getMoney());
+        values.put(DbHelper.COL_BUDGET_DESCRIPTION, budget.getDescription());
+        values.put(DbHelper.COL_BUDGET_CATEGORY_ID, budget.getCategoryId());
+        values.put(DbHelper.COL_BUDGET_START_DATE, budget.getStartDate());
+        values.put(DbHelper.COL_BUDGET_END_DATE, budget.getEndDate());
+
+        String whereClause = DbHelper.COL_BUDGET_ID + " = ?";
+        String[] whereArgs = {String.valueOf(budget.getId())};
+
+        int rowsAffected = db.update(DbHelper.DB_TABLE_BUDGET, values, whereClause, whereArgs);
         db.close();
-        return budgetArrayList;
+        return rowsAffected;
     }
 }

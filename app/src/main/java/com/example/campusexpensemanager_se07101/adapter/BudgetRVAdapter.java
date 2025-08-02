@@ -10,24 +10,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.campusexpensemanager_se07101.R;
-import com.example.campusexpensemanager_se07101.database.BudgetModel;
+import com.example.campusexpensemanager_se07101.model.Budget;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class BudgetRVAdapter extends RecyclerView.Adapter<BudgetRVAdapter.BudgetItemViewHolder> {
-    public ArrayList<BudgetModel> budgetModels;
+    public List<Budget> budgetList;
     public Context context;
     public OnClickListener clickListener;
-    public interface OnClickListener{
+
+    public interface OnClickListener {
         void onClick(int postition);
     }
-    public void setOnClickListener(OnClickListener clickListener){
+
+    public void setOnClickListener(OnClickListener clickListener) {
         this.clickListener = clickListener;
     }
-    public BudgetRVAdapter(ArrayList<BudgetModel > model, Context context){
-        this.budgetModels = model;
+
+    public BudgetRVAdapter(List<Budget> budgetList, Context context) {
+        this.budgetList = budgetList;
         this.context = context;
     }
+
     @NonNull
     @Override
     public BudgetItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,15 +41,17 @@ public class BudgetRVAdapter extends RecyclerView.Adapter<BudgetRVAdapter.Budget
 
     @Override
     public void onBindViewHolder(@NonNull BudgetItemViewHolder holder, int position) {
-        BudgetModel model = budgetModels.get(position);
-        // gán dữ liệu ở đây
-        holder.tvNameBudget.setText(model.getBudgetName());
-        holder.tvButgetMoney.setText(String.valueOf(model.getBudgetMoney()));
-        holder.tvCategory.setText("Category: " + model.getCategory());
-        holder.tvDateRange.setText("From: " + model.getStartDate() + " to " + model.getEndDate());
-        holder.tvDescription.setText("Note: " + model.getBudgetDescription());
-        holder.itemView.setOnClickListener(view ->{
-            if (clickListener != null){
+        Budget budget = budgetList.get(position);
+        holder.tvNameBudget.setText(budget.getName());
+        holder.tvButgetMoney.setText(String.valueOf(budget.getMoney()));
+        // Note: Các thuộc tính Category và DateRange không tồn tại trong class Budget mới,
+        // nếu muốn hiển thị, bạn cần chỉnh sửa lớp Budget hoặc truy vấn thêm từ CategoryRepository.
+        // holder.tvCategory.setText("Category: " + budget.getCategory());
+        // holder.tvDateRange.setText("From: " + budget.getStartDate() + " to " + budget.getEndDate());
+        holder.tvDescription.setText("Note: " + budget.getDescription());
+
+        holder.itemView.setOnClickListener(view -> {
+            if (clickListener != null) {
                 clickListener.onClick(position);
             }
         });
@@ -53,26 +59,24 @@ public class BudgetRVAdapter extends RecyclerView.Adapter<BudgetRVAdapter.Budget
 
     @Override
     public int getItemCount() {
-        return budgetModels.size(); // so luong phan list view
+        return budgetList.size();
+    }
+
+    public void updateData(List<Budget> newBudgetList) {
+        this.budgetList = newBudgetList;
+        notifyDataSetChanged();
     }
 
     public class BudgetItemViewHolder extends RecyclerView.ViewHolder {
         TextView tvNameBudget, tvButgetMoney, tvCategory, tvDateRange, tvDescription;
-        View itemView;
+
         public BudgetItemViewHolder(@NonNull View itemView) {
-            super(itemView.getRootView());
-            this.itemView = itemView;
+            super(itemView);
             tvNameBudget = itemView.findViewById(R.id.tvNameBudget);
             tvButgetMoney = itemView.findViewById(R.id.tvMoneyBudget);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             tvDateRange = itemView.findViewById(R.id.tvDateRange);
             tvDescription = itemView.findViewById(R.id.tvDescription);
-            itemView.setOnClickListener(view -> {
-                if (clickListener != null){
-                    clickListener.onClick(getAdapterPosition());
-                }
-            });
-
         }
     }
 }
