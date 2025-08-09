@@ -1,18 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExpensesFragment"
-    android:gravity="center">
+    android:padding="10dp">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- Tiêu đề màn hình -->
     <TextView
+        android:id="@+id/tvExpenseTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Expenses page"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:text="Expense Page"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true" />
 
-</LinearLayout>
+    <!-- Hình ảnh đại diện (nếu có) -->
+    <ImageView
+        android:id="@+id/imgExpense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvExpenseTitle"
+        android:background="#f5f5f5" />
+
+    <!-- Nút tạo expense mới -->
+    <Button
+        android:id="@+id/btnCreateExpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Expense"
+        android:layout_below="@id/imgExpense" />
+
+    <!-- Danh sách các khoản chi tiêu -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvExpense"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btnCreateExpense"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="?actionBarSize" />
+</RelativeLayout>

@@ -5,6 +5,7 @@ public class BudgetModel {
     private int userId;
     private String budgetName;
     private int budgetMoney;
+    private int moneyRemaining;
     private String budgetDescription;
     private String category;
     private String startDate;
@@ -13,6 +14,7 @@ public class BudgetModel {
     private String updatedAt;
     // contructor
     public BudgetModel(int id, int userId, String budgetName, int budgetMoney,
+                       int moneyRemaining,
                        String budgetDescription, String category,
                        String startDate, String endDate,
                        String createdAt, String updatedAt) {
@@ -20,6 +22,7 @@ public class BudgetModel {
         this.userId = userId;
         this.budgetName = budgetName;
         this.budgetMoney = budgetMoney;
+        this.moneyRemaining = moneyRemaining;
         this.budgetDescription = budgetDescription;
         this.category = category;
         this.startDate = startDate;
@@ -107,4 +110,12 @@ public class BudgetModel {
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
+    public int getMoneyRemaining() {
+        return moneyRemaining;
+    }
+
+    public void setMoneyRemaining(int moneyRemaining) {
+        this.moneyRemaining = moneyRemaining;
+    }
+
 }

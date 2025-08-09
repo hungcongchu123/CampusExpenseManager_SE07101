@@ -8,8 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final String DB_NAME = "cong hihi";//ten co so du lieu
-    private static final int DB_VERSION = 4;// phien ban
+    private static final String DB_NAME = "chuhungcong";//ten co so du lieu
+    private static final int DB_VERSION = 7;// phien ban
     //Khai bao bang du liue va cac cot trong bang du lieu
     //dinh nghia bang user
     protected static final String DB_TABLE_USER = "user";
@@ -23,17 +23,18 @@ public class DbHelper extends SQLiteOpenHelper {
     protected static final String COL_CREATED_AT = "created_at";
     protected static final String COL_UPDATED_AT = "updated_at";
     // dinh nghia va budget
-    protected static final String DB_TABLE_BUDGET = "budget";
+    public static final String DB_TABLE_BUDGET = "budget";
     protected static final String COL_BUDGET_ID = "id";
     protected static final String COL_BUDGET_NAME = "budget_name";
     protected static final String COL_BUDGET_MONEY = "budget_money";
+    protected static final String COL_BUDGET_MONEY_REMAINING = "money_remaining"; //  Cột mới
     protected static final String COL_BUDGET_DESCRIPTION = "description";
     public static final String COL_BUDGET_CATEGORY = "category";
     public static final String COL_BUDGET_START_DATE = "start_date";
     public static final String COL_BUDGET_END_DATE = "end_date";
     public static final String COL_BUDGET_USER_ID = "user_id"; // thêm vào để liên kết user
     // DINH NGHIA BANG EXPENSE
-    protected static final String DB_TABLE_EXPENSE = "expenses";
+    public static final String DB_TABLE_EXPENSE = "expenses";
     protected static final String COL_EXPENSE_ID = "id";
     protected static final String COL_EXPENSE_NAME = "expense_name";
     protected static final String COL_EXPENSE_AMOUNT = "amount";
@@ -66,6 +67,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + COL_BUDGET_USER_ID + " INTEGER, "
                 + COL_BUDGET_NAME + " VARCHAR(150) NOT NULL, "
                 + COL_BUDGET_MONEY + " INTEGER NOT NULL, "
+                + COL_BUDGET_MONEY_REMAINING + " INTEGER NOT NULL, " //  thêm dòng này
                 + COL_BUDGET_DESCRIPTION + " TEXT, "
                 + COL_BUDGET_CATEGORY + " TEXT, "
                 + COL_BUDGET_START_DATE + " TEXT, "

@@ -4,16 +4,18 @@ public class ExpenseModel {
     private int id;
     private int userId;
     private int budgetId;
+    private String expenseName;
     private String category;
     private int amount;
     private String description;
     private String date;
 
-    public ExpenseModel(int id, int userId, int budgetId, String category, int amount, String description, String date)
+    public ExpenseModel(int id, int userId, int budgetId,String expenseName, String category, int amount, String description, String date)
     {
         this.id = id;
         this.userId = userId;
         this.budgetId = budgetId;
+        this.expenseName = expenseName;
         this.category = category;
         this.amount = amount;
         this.description = description;
@@ -42,6 +44,9 @@ public class ExpenseModel {
 
     public void setBudgetId(int budgetId) {
         this.budgetId = budgetId;
+    }
+    public String getExpenseName() {
+        return expenseName;
     }
 
     public String getCategory() {

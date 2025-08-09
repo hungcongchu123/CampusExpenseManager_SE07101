@@ -1,77 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
-    android:orientation="vertical"
-    android:padding="1dp"
-    tools:ignore="ExtraText">
+    android:background="@drawable/login_24dp"
+    tools:context=".LoginActivity">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Ăn đấm không?"
-        android:textColor="#EF0A0A"
-        android:textSize="22sp" />
-    <EditText
+    <!-- Lớp phủ mờ để nội dung dễ đọc -->
+    <View
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="#B65959"
-        android:hint="Enter Your Name:"
-        android:paddingStart="10dp"
-        android:id="@+id/edtUserName"/>
+        android:layout_height="match_parent"
+        android:background="#80000000" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:background="#B65959"
-        android:hint="Enter Your Password:"
-        android:inputType="textPassword"
-        android:paddingStart="10dp"
-        android:id="@+id/edtPassword"/>
-
+    <!-- Nội dung login nằm giữa -->
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_centerInParent="true"
+        android:layout_margin="24dp"
+        android:padding="24dp"
+        android:background="@android:color/transparent">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="#DC1212"
-            android:text="dang nhap"
-            android:textColor="#FFFFFF"
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Sign In"
             android:textStyle="bold"
-            android:backgroundTint="#00FF00"
-            android:id="@+id/btnLogin"/>
+            android:textColor="#FFFFFF"
+            android:textSize="26sp"
+            android:layout_marginBottom="24dp" />
 
-        <Button
+        <!-- Tài khoản -->
+        <EditText
+            android:id="@+id/edtUserName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Enter your username"
+
+            android:paddingHorizontal="16dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#CCCCCC"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Mật khẩu -->
+        <EditText
+            android:id="@+id/edtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Enter your password"
+            android:inputType="textPassword"
+
+            android:paddingHorizontal="16dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#CCCCCC"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Nút Login & Back -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:background="#1083DE"
-            android:text="quay lai"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="click vao em nao"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        android:id="@+id/tvRegisterAccount"/>
-</LinearLayout>
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Login"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#1EB980"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Back"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#FF6F61"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <!-- Text đăng ký -->
+        <TextView
+            android:id="@+id/tvRegisterAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account? Sign Up"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+</RelativeLayout>

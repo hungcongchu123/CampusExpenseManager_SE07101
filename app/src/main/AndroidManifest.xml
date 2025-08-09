@@ -16,9 +16,11 @@
         <activity android:name=".budget.AddExpenseActivity"/>
         <activity android:name=".budget.AddBudgetActivity"/>
         <activity android:name=".RegisterActivity"/>
-        <activity android:name=".LoginActivity"/>
+        <activity android:name=".budget.EditBudgetActivity"/>
+        <activity android:name=".budget.EditExpenseActivity"/>
+        <activity android:name=".MenuActivity"/>
         <activity
-            android:name=".MenuActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

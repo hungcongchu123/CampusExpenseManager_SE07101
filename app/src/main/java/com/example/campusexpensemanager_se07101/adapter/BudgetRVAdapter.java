@@ -40,7 +40,8 @@ public class BudgetRVAdapter extends RecyclerView.Adapter<BudgetRVAdapter.Budget
         BudgetModel model = budgetModels.get(position);
         // gán dữ liệu ở đây
         holder.tvNameBudget.setText(model.getBudgetName());
-        holder.tvButgetMoney.setText(String.valueOf(model.getBudgetMoney()));
+        //holder.tvButgetMoney.setText(String.valueOf(model.getBudgetMoney()));
+        holder.tvButgetMoney.setText(String.valueOf(model.getMoneyRemaining()));
         holder.tvCategory.setText("Category: " + model.getCategory());
         holder.tvDateRange.setText("From: " + model.getStartDate() + " to " + model.getEndDate());
         holder.tvDescription.setText("Note: " + model.getBudgetDescription());

@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("user_id", user.getId()); // user là object lấy được từ DB
                     editor.apply();
-                    Intent intent = new Intent(LoginActivity.this, AddBudgetActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     startActivity(intent);
                     finish();
                 }else{

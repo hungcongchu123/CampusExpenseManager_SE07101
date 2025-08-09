@@ -91,24 +91,21 @@ public class budgetFragment extends Fragment {
             @Override
             public void onClick(int postition) {
                 BudgetModel model = budgetModelArrayList.get(postition);
-                String name = model.getBudgetName();
-                int money = model.getBudgetMoney();
-                int id = model.getId();
-                String description = model.getBudgetDescription();
-                //dung intent + Bundle de chuyen data sang EditBudget
                 Intent intent = new Intent(getActivity(), EditBudgetActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("ID_BUDGET", id);
-                bundle.putString("NAME_BUDGET", name);
-                bundle.putInt("MONEY_BUDGET", money);
-                bundle.putString("DESCRIPTION_BUDGET", description);
+                //dung intent + Bundle de chuyen data sang EditBudget
+                bundle.putInt("ID_BUDGET", model.getId());
+                bundle.putString("NAME_BUDGET", model.getBudgetName());
+                bundle.putInt("MONEY_BUDGET", model.getBudgetMoney());
+                bundle.putString("DESCRIPTION_BUDGET", model.getBudgetDescription());
+                bundle.putString("CATEGORY_BUDGET", model.getCategory());
+                bundle.putString("START_DATE", model.getStartDate());
+                bundle.putString("END_DATE", model.getEndDate());
                 intent.putExtras(bundle);
                 startActivity(intent);
                 //Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
         btnCreteBudget.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,4 +117,18 @@ public class budgetFragment extends Fragment {
         });
         return view;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadBudgets(); // reload dữ liệu ngân sách
+    }
+
+    private void loadBudgets() {
+        if (budgetRepository != null) {
+            budgetModelArrayList.clear(); // sửa từ budgetList thành budgetModelArrayList
+            budgetModelArrayList.addAll(budgetRepository.getListBudget());
+            budgetRVAdapter.notifyDataSetChanged(); // sửa từ budgetAdapter thành budgetRVAdapter
+        }
+    }
+
 }
