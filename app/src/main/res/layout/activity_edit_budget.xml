@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Budget"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:id="@+id/edtBudgetName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="Enter name Budget"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/edtBudgetMoney"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="Enter money Budget"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/edtDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:inputType="textMultiLine"
+            android:hint="Descriptions" />
+
+        <!-- Danh mục ngân sách (dùng Spinner để sửa) -->
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" />
+
+        <!-- Ngày bắt đầu -->
+        <TextView
+            android:id="@+id/tvStartDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start Date: "
+            android:layout_marginTop="15dp"
+            android:padding="8dp"
+            android:background="#EEEEEE" />
+
+        <!-- Ngày kết thúc -->
+        <TextView
+            android:id="@+id/tvEndDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="End Date: "
+            android:layout_marginTop="10dp"
+            android:padding="8dp"
+            android:background="#EEEEEE" />
+
+        <!-- Các nút thao tác -->
+        <Button
+            android:id="@+id/btnUpdateBudget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            android:layout_marginTop="20dp"
+            android:background="#03A9F4" />
+
+        <Button
+            android:id="@+id/btnDeleteBudget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:layout_marginTop="10dp"
+            android:background="#F44336" />
+
+        <Button
+            android:id="@+id/btnBackBudget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_marginTop="10dp"
+            android:background="#9E9E9E" />
+
+    </LinearLayout>
+</ScrollView>

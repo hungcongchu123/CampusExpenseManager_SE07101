@@ -26,6 +26,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     private BudgetRepository budgetRepo;
     private ExpenseRepository expenseRepo;
+    private BudgetAlertHelper budgetAlertHelper;
 
     private int userId;
 
@@ -45,6 +46,8 @@ public class AddExpenseActivity extends AppCompatActivity {
             return;
         }
 
+
+
         // Ánh xạ view
         edtExpenseName = findViewById(R.id.edtExpenseName);
         edtAmount = findViewById(R.id.edtExpenseAmount);
@@ -55,6 +58,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         budgetRepo = new BudgetRepository(this);
         expenseRepo = new ExpenseRepository(this);
+        budgetAlertHelper = new BudgetAlertHelper(this);
 
         loadBudgetCategories();
 
@@ -122,6 +126,14 @@ public class AddExpenseActivity extends AppCompatActivity {
             return;
         }
 
+        // ✅ Kiểm tra ngân sách trước khi lưu
+        budgetAlertHelper.checkBudgetWithCallback(userId, selectedCategory, amount, () -> {
+            // Callback này sẽ chạy sau khi user đóng dialog
+            saveExpenseToDatabase(name, amount, desc);
+        });
+    }
+
+    private void saveExpenseToDatabase(String name, int amount, String desc) {
         // Lấy budgetId dựa trên category và user
         int budgetId = budgetRepo.getBudgetIdByCategoryAndUser(selectedCategory, userId);
         if (budgetId == -1) {
@@ -141,5 +153,6 @@ public class AddExpenseActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to add expense", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 }

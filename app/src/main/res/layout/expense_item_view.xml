@@ -3,18 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="12dp"
-    android:layout_marginTop="12dp"
+    android:layout_margin="8dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp"
-    app:cardBackgroundColor="@color/background_card"
-    android:foreground="?android:attr/selectableItemBackground">
+    app:cardBackgroundColor="@color/background_card">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:orientation="vertical">
 
         <!-- Header with icon and title -->
         <LinearLayout
@@ -27,11 +25,11 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/balance_wallet_24dp"
+                android:src="@drawable/attach_money_24dp"
                 android:background="@drawable/circle_background"
                 android:padding="12dp"
                 android:layout_marginEnd="16dp"
-                android:contentDescription="Budget Icon" />
+                android:contentDescription="Expense Icon" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -40,26 +38,26 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvNameBudget"
+                    android:id="@+id/tvExpenseName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tiền đi du lịch"
-                    android:textSize="20sp"
+                    android:text="Cà phê Starbucks"
                     android:textStyle="bold"
+                    android:textSize="20sp"
                     android:textColor="@color/text_primary"
-                    android:layout_marginBottom="4dp" />
+                    android:layout_marginBottom="4dp"/>
 
                 <TextView
-                    android:id="@+id/tvCategory"
+                    android:id="@+id/tvExpenseCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Category: Du lịch"
+                    android:text="Category: Giải trí"
                     android:textColor="@color/text_secondary"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Budget amount -->
+        <!-- Expense amount -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,46 +69,54 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Budget"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:layout_marginBottom="8dp"/>
+                android:text="Amount"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginBottom="4dp"/>
 
             <TextView
-                android:id="@+id/tvMoneyBudget"
+                android:id="@+id/tvExpenseAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2.000.000 VND"
+                android:text="50,000đ"
                 android:textStyle="bold"
                 android:textSize="24sp"
-                android:textColor="@color/success" />
+                android:textColor="@color/error" />
         </LinearLayout>
 
-        <!-- Date range and description -->
+        <!-- Additional details -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvDateRange"
+                android:id="@+id/tvExpenseDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="From: 2025-08-10 to 2025-08-15"
+                android:text="Description: Ăn vặt"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp"
                 android:layout_marginBottom="8dp" />
 
             <TextView
-                android:id="@+id/tvDescription"
+                android:id="@+id/tvExpenseDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Note: Chi tiêu du lịch cùng bạn bè"
+                android:text="Date: 2025-08-03"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Budget name (hidden by default) -->
+            <TextView
+                android:id="@+id/tvExpenseBudgetName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Budget: Đi chơi"
                 android:textColor="@color/text_tertiary"
                 android:textSize="14sp"
-                android:lineSpacingExtra="2dp"/>
-
+                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>

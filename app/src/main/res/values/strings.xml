@@ -3,4 +3,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
+    
+    <!-- Settings strings -->
+    <string name="settings_budget_notifications_title">Budget Notification Settings</string>
+    <string name="settings_notifications_enabled">Enable budget notifications</string>
+    <string name="settings_warning_threshold">Warning threshold</string>
+    <string name="settings_threshold_description">When expenses reach this threshold, you will receive a warning to better control your budget.</string>
+    <string name="settings_reset_default">Reset to default</string>
+    <string name="settings_notifications_enabled_toast">Budget notifications enabled</string>
+    <string name="settings_notifications_disabled_toast">Budget notifications disabled</string>
+    <string name="settings_threshold_updated_toast">Warning threshold updated</string>
+    <string name="settings_reset_success">Settings reset to default</string>
 </resources>

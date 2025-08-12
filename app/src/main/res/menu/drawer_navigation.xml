@@ -17,19 +17,18 @@
             android:icon="@drawable/balance_wallet_24dp"
             />
         <item
-            android:title="Setting"
+            android:title="Settings"
             android:id="@+id/menu_setting"
             android:icon="@drawable/settings_24dp"
             />
     </group>
-    <item android:title="others">
+    
+    <item android:title="Others">
         <menu>
             <item
                 android:title="Logout"
-                android:id="@+id/menu_logout"/>
+                android:id="@+id/menu_logout"
+                android:icon="@drawable/logout_icon"/>
         </menu>
     </item>
-
-
-
 </menu>

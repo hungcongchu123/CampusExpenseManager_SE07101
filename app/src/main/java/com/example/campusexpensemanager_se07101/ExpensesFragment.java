@@ -78,7 +78,7 @@ public class ExpensesFragment extends Fragment {
                     intent.putExtra("expense_id", expense.getId());
                     startActivity(intent);
                 } else {
-                    Toast.makeText(requireContext(), "Không thể mở chi tiêu này", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Cannot open this expense", Toast.LENGTH_SHORT).show();
                 }
             }
         });
