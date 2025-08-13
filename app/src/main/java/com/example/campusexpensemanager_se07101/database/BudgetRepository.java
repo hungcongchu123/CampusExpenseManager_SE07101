@@ -157,7 +157,55 @@ public class BudgetRepository extends DbHelper{
         db.close();
         return total;
     }
+    
+    // ✅ THÊM MỚI: Kiểm tra trùng lặp budget theo tên
+    public boolean isBudgetDuplicate(int userId, String budgetName, int excludeBudgetId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        
+        String query = "SELECT COUNT(*) FROM " + DB_TABLE_BUDGET + 
+                " WHERE " + COL_BUDGET_USER_ID + " = ? AND " + 
+                COL_BUDGET_NAME + " = ? AND " + 
+                COL_BUDGET_ID + " != ?";
+        
+        Cursor cursor = db.rawQuery(query, new String[]{
+                String.valueOf(userId), budgetName, String.valueOf(excludeBudgetId)
+        });
+        
+        boolean isDuplicate = false;
+        if (cursor.moveToFirst()) {
+            isDuplicate = cursor.getInt(0) > 0;
+        }
+        
+        cursor.close();
+        db.close();
+        return isDuplicate;
+    }
+    
+    // ✅ THÊM MỚI: Kiểm tra trùng lặp budget khi thêm mới
+    public boolean isBudgetDuplicateNew(int userId, String budgetName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        
+        String query = "SELECT COUNT(*) FROM " + DB_TABLE_BUDGET + 
+                " WHERE " + COL_BUDGET_USER_ID + " = ? AND " + 
+                COL_BUDGET_NAME + " = ?";
+        
+        Cursor cursor = db.rawQuery(query, new String[]{
+                String.valueOf(userId), budgetName
+        });
+        
+        boolean isDuplicate = false;
+        if (cursor.moveToFirst()) {
+            isDuplicate = cursor.getInt(0) > 0;
+        }
+        
+        cursor.close();
+        db.close();
+        return isDuplicate;
+    }
+    
+
     public double getBudgetForCategory(int userId, String categoryName) {
+        //tim hieu lan cap nhat gan nhat ngan sach cua nguoi dung
         double budget = 0.0;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(

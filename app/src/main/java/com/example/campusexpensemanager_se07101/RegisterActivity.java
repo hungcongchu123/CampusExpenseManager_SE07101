@@ -60,12 +60,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 String password = edtPassword.getText().toString().trim();
                 if(TextUtils.isEmpty(password)){
-                    edtPassword.setError("nhap di may");
+                    edtPassword.setError("enter password please");
                     return;
                 }
                 String email = edtMail.getText().toString().trim();
                 if(TextUtils.isEmpty(email)){
-                    edtMail.setError("enter nmail");
+                    edtMail.setError("enter email please");
                     return;
                 }
                 String phone = edtPhone.getText().toString().trim();

@@ -80,6 +80,7 @@ public class budgetFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_budget, container, false);
         Button btnCreteBudget = view.findViewById(R.id.btnCreateBudget);
         budgetRv = view.findViewById(R.id.rvBudget);
+        //lay danh sach
         budgetModelArrayList = new ArrayList<>();
         budgetRepository = new BudgetRepository(getActivity());
         budgetModelArrayList = budgetRepository.getListBudget();
@@ -125,9 +126,9 @@ public class budgetFragment extends Fragment {
 
     private void loadBudgets() {
         if (budgetRepository != null) {
-            budgetModelArrayList.clear(); // sửa từ budgetList thành budgetModelArrayList
+            budgetModelArrayList.clear(); //
             budgetModelArrayList.addAll(budgetRepository.getListBudget());
-            budgetRVAdapter.notifyDataSetChanged(); // sửa từ budgetAdapter thành budgetRVAdapter
+            budgetRVAdapter.notifyDataSetChanged(); //
         }
     }
 

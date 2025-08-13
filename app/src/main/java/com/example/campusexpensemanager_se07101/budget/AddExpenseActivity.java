@@ -126,7 +126,14 @@ public class AddExpenseActivity extends AppCompatActivity {
             return;
         }
 
-        // ✅ Kiểm tra ngân sách trước khi lưu
+        //  Kiểm tra trùng lặp expense trước khi lưu
+        if (expenseRepo.isExpenseDuplicateNew(userId, name)) {
+            Toast.makeText(this, "Expense with same name already exists!", Toast.LENGTH_LONG).show();
+            edtExpenseName.setError("Duplicate expense detected");
+            return;
+        }
+
+        //  Kiểm tra ngân sách trước khi lưu
         budgetAlertHelper.checkBudgetWithCallback(userId, selectedCategory, amount, () -> {
             // Callback này sẽ chạy sau khi user đóng dialog
             saveExpenseToDatabase(name, amount, desc);

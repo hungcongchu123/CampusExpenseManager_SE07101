@@ -76,7 +76,7 @@
         android:id="@+id/tvEndDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chọn ngày kết thúc"
+        android:text="Select End Date"
         android:padding="8dp"
         android:textSize="16sp" />
 

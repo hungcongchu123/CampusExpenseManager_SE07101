@@ -48,11 +48,11 @@ public class LoginActivity extends AppCompatActivity {
                 String password = edtPassword.getText().toString().trim();
                 if(TextUtils.isEmpty(username))
                 {
-                    edtUserName.setError("nhap ten di");
+                    edtUserName.setError("enter name please");
                     return;
                 }
                 if(TextUtils.isEmpty(password)){
-                    edtPassword.setError("nhap mk");
+                    edtPassword.setError("enter password please");
                     return;
                 }
                 // kiem tra tk co ton tai ko

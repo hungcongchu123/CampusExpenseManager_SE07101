@@ -231,4 +231,49 @@ public class ExpenseRepository extends DbHelper {
         db.close();
         return total;
     }
+    
+    // ✅ THÊM MỚI: Kiểm tra trùng lặp expense theo tên
+    public boolean isExpenseDuplicate(int userId, String expenseName, int excludeExpenseId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        
+        String query = "SELECT COUNT(*) FROM " + DB_TABLE_EXPENSE + 
+                " WHERE " + COL_EXPENSE_USER_ID + " = ? AND " + 
+                COL_EXPENSE_NAME + " = ? AND " + 
+                COL_EXPENSE_ID + " != ?";
+        
+        Cursor cursor = db.rawQuery(query, new String[]{
+                String.valueOf(userId), expenseName, String.valueOf(excludeExpenseId)
+        });
+        
+        boolean isDuplicate = false;
+        if (cursor.moveToFirst()) {
+            isDuplicate = cursor.getInt(0) > 0;
+        }
+        
+        cursor.close();
+        db.close();
+        return isDuplicate;
+    }
+    
+    // ✅ THÊM MỚI: Kiểm tra trùng lặp expense khi thêm mới
+    public boolean isExpenseDuplicateNew(int userId, String expenseName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        
+        String query = "SELECT COUNT(*) FROM " + DB_TABLE_EXPENSE + 
+                " WHERE " + COL_EXPENSE_USER_ID + " = ? AND " + 
+                COL_EXPENSE_NAME + " = ?";
+        
+        Cursor cursor = db.rawQuery(query, new String[]{
+                String.valueOf(userId), expenseName
+        });
+        
+        boolean isDuplicate = false;
+        if (cursor.moveToFirst()) {
+            isDuplicate = cursor.getInt(0) > 0;
+        }
+        
+        cursor.close();
+        db.close();
+        return isDuplicate;
+    }
 }

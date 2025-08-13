@@ -138,7 +138,7 @@ public class HomeFragment extends Fragment {
         pieChart.setUsePercentValues(true);
         pieChart.setDrawHoleEnabled(false);
         Description desc = new Description();
-        desc.setText("Tổng quan chi tiêu");
+        desc.setText("Spending Overview");
         pieChart.setDescription(desc);
 
         pieChart.animateY(1000);

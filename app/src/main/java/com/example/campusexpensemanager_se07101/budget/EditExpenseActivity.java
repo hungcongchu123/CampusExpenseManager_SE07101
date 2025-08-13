@@ -40,7 +40,7 @@ public class EditExpenseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_expense);
 
-        // ✅ Lấy userId từ SharedPreferences
+        //  Lấy userId từ SharedPreferences
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         userId = prefs.getInt("user_id", -1);
         if (userId == -1) {
@@ -128,7 +128,14 @@ public class EditExpenseActivity extends AppCompatActivity {
             try {
                 int amount = Integer.parseInt(amountStr);
 
-                // ✅ Kiểm tra ngân sách trước khi cập nhật
+                //  Kiểm tra trùng lặp expense trước khi cập nhật
+                if (expenseRepository.isExpenseDuplicate(userId, expenseName, expenseId)) {
+                    Toast.makeText(this, "Expense with same name already exists!", Toast.LENGTH_LONG).show();
+                    etExpenseName.setError("Duplicate expense detected");
+                    return;
+                }
+
+                //  Kiểm tra ngân sách trước khi cập nhật
                 budgetAlertHelper.checkBudgetWithCallback(userId, type, amount, () -> {
                     // Callback này sẽ chạy sau khi user đóng dialog
                     updateExpenseInDatabase(expenseName, amount, description, date, type);
@@ -146,10 +153,10 @@ public class EditExpenseActivity extends AppCompatActivity {
                     int budgetId = expenseToDelete.getBudgetId();
                     int amount = expenseToDelete.getAmount();
 
-                    // ✅ Cộng tiền lại vào ngân sách
+                    //  Cộng tiền lại vào ngân sách
                     expenseRepository.addBackToBudget(budgetId, amount);
 
-                    // ✅ Xoá expense
+                    //  Xoá expense
                     int deleted = expenseRepository.deleteExpenseById(expenseId);
                     if (deleted > 0) {
                         Toast.makeText(this, "Expense deleted successfully", Toast.LENGTH_SHORT).show();

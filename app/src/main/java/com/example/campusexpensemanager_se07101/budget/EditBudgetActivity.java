@@ -187,6 +187,13 @@ public class EditBudgetActivity extends AppCompatActivity {
             return;
         }
 
+        //  Kiểm tra trùng lặp budget trước khi cập nhật
+        if (repository.isBudgetDuplicate(userId, nameBudget, ID_BUDGET)) {
+            Toast.makeText(this, "Budget with same name already exists!", Toast.LENGTH_LONG).show();
+            edtBudgetName.setError("Duplicate budget detected");
+            return;
+        }
+
         int result = repository.updateBudgetById(
                 nameBudget,
                 moneyBudget,
@@ -221,7 +228,7 @@ public class EditBudgetActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     spinnerCategory.setSelection(categoryList.indexOf(newCategory));
                 } else {
-                    Toast.makeText(this, "Category already exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Category already exists in list", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(this, "Category cannot be empty", Toast.LENGTH_SHORT).show();
