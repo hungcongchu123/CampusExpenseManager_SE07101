@@ -63,6 +63,13 @@ public class RegisterActivity extends AppCompatActivity {
                     edtPassword.setError("enter password please");
                     return;
                 }
+                
+                // THÊM MỚI: Kiểm tra validation mật khẩu
+                if (!isValidPassword(password)) {
+                    edtPassword.setError("Password must be at least 8 characters, start with uppercase letter and include special character");
+                    return;
+                }
+                
                 String email = edtMail.getText().toString().trim();
                 if(TextUtils.isEmpty(email)){
                     edtMail.setError("enter email please");
@@ -124,6 +131,31 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+    }
+    
+    // THÊM MỚI: Method kiểm tra validation mật khẩu
+    private boolean isValidPassword(String password) {
+        // Kiểm tra ít nhất 8 ký tự
+        if (password.length() < 8) {
+            return false;
+        }
+        
+        // Kiểm tra chữ cái đầu phải viết hoa
+        if (!Character.isUpperCase(password.charAt(0))) {
+            return false;
+        }
+        
+        // Kiểm tra có ít nhất 1 ký tự đặc biệt
+        String specialChars = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+        boolean hasSpecialChar = false;
+        for (char c : password.toCharArray()) {
+            if (specialChars.contains(String.valueOf(c))) {
+                hasSpecialChar = true;
+                break;
+            }
+        }
+        
+        return hasSpecialChar;
     }
 }
 

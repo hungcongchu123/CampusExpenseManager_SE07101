@@ -133,7 +133,13 @@ public class AddExpenseActivity extends AppCompatActivity {
             return;
         }
 
-        //  Kiểm tra ngân sách trước khi lưu
+        //  Kiểm tra vượt quá ngân sách trước khi lưu
+        if (budgetAlertHelper.isBudgetExceeded(userId, selectedCategory, amount)) {
+            Toast.makeText(this, "Vượt quá ngân sách! Không thể thêm chi tiêu này.", Toast.LENGTH_LONG).show();
+            return; // Thoát, không lưu gì cả
+        }
+
+        //  Kiểm tra ngân sách trước khi lưu (cảnh báo gần ngưỡng)
         budgetAlertHelper.checkBudgetWithCallback(userId, selectedCategory, amount, () -> {
             // Callback này sẽ chạy sau khi user đóng dialog
             saveExpenseToDatabase(name, amount, desc);

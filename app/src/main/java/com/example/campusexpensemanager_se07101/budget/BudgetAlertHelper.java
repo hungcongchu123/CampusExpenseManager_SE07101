@@ -131,4 +131,17 @@ public class BudgetAlertHelper {
             // Bỏ qua lỗi
         }
     }
+
+    //  THÊM MỚI: Kiểm tra xem chi tiêu có vượt quá ngân sách không
+    public boolean isBudgetExceeded(int userId, String category, double amount) {
+        double budget = budgetRepository.getBudgetForCategory(userId, category);
+        if (budget <= 0) return false;
+
+        double totalExpenses = expenseRepository.getTotalExpensesForCategory(userId, category);
+        double totalAfterExpense = totalExpenses + amount;
+        double percentage = totalAfterExpense / budget;
+
+        // Trả về true nếu vượt quá 100% ngân sách
+        return percentage >= 1.0;
+    }
 }
